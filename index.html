@@ -16,6 +16,7 @@
       justify-content: center;
       height: 100vh;
       text-align: center;
+      overflow: hidden;
     }
 
     .card {
@@ -24,18 +25,6 @@
       border-radius: 20px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       max-width: 400px;
-    }
-
-    .heart {
-      font-size: 4rem;
-      animation: pulse 1.2s infinite;
-      color: red;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-      100% { transform: scale(1); }
     }
 
     h1 {
@@ -57,10 +46,30 @@
       font-size: 1rem;
       cursor: pointer;
       transition: 0.3s;
+      position: relative;
+      z-index: 1;
     }
 
     .btn:hover {
       background: #e63950;
+    }
+
+    .heart-float {
+      position: absolute;
+      color: red;
+      font-size: 1.5rem;
+      animation: float 1s ease-out forwards;
+    }
+
+    @keyframes float {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-80px) scale(1.5);
+      }
     }
   </style>
 </head>
@@ -69,13 +78,41 @@
     <h1>Semangat kerja ya, Sayang!</h1>
     <p>Mungkin ini bukan pekerjaan yang kamu impikan, tapi dari pekerjaan ini, kamu bisa beli barang dan makanan yang kamu mau. Ternyata bener, kadang hidup itu emang perlu kata cukup di dalamnya, biar kita bisa bersyukur atas tiap2 apa yang kita punya, walaupun kadang merasa jenuh..capek..dan pengen nyerah aja. tapi kalau engga dari kerjaan itu mau hidup dari mana lagi. boleh melihat ke atas untuk jadiin motivasi, tapi jangan lupa sesekali kamu lihat ke bawah, karena mungkin di luar sana banyak yang ingin di posisi kamu sekarang, semaangat terus ya kerjanya cantik. Allah pasti punya banyak rencana baik untuk kamu.</p>
     <p>Mas selalu dukung kamu, setiap detik 💪</p>
-    <button class="btn" onclick="alert('Mas sayang kamu DWI NOVITASARI ❤️')">Butuh semangat? sini kliktikin mas dulu</button>
+    <button class="btn" onclick="playAudioAndShowLove(event)">Butuh semangat? sini kliktikin mas dulu</button>
   </div>
 
-  <!-- Tambahkan lagu di sini -->
-  <audio autoplay loop>
+  <audio id="audio" loop>
     <source src="audio/batas-senja-kita-usahakan-lagi-lirik-lagu-viral-tiktok_cqqMEjQz.mp3" type="audio/mpeg">
     Browser kamu tidak mendukung pemutar audio.
   </audio>
+
+  <script>
+    function playAudioAndShowLove(e) {
+      // Mainkan musik
+      const audio = document.getElementById('audio');
+      audio.play();
+
+      // Tampilkan alert romantis
+      alert('Mas sayang kamu DWI NOVITASARI ❤️');
+
+      // Efek hati kecil
+      for (let i = 0; i < 8; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('heart-float');
+        heart.textContent = '❤️';
+        document.body.appendChild(heart);
+
+        const x = e.clientX + (Math.random() * 100 - 50);
+        const y = e.clientY + (Math.random() * 50 - 25);
+
+        heart.style.left = `${x}px`;
+        heart.style.top = `${y}px`;
+
+        setTimeout(() => {
+          heart.remove();
+        }, 1000);
+      }
+    }
+  </script>
 </body>
 </html>
